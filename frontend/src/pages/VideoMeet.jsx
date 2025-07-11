@@ -18,8 +18,19 @@ const server_url = server;
 var connections = {};
 
 
+// const peerConfigConnections = {
+//   iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
+// };
+
 const peerConfigConnections = {
-  iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
+  iceServers: [
+    { urls: "stun:stun.l.google.com:19302" },
+    {
+      urls: "turn:relay.metered.ca:80",
+      username: "openrelayproject",
+      credential: "openrelayproject"
+    }
+  ]
 };
 
 export default function VideoMeetComponent() {
