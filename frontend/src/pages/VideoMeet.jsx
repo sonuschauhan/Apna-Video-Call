@@ -47,7 +47,7 @@ export default function VideoMeetComponent() {
 
   let [screen, setScreen] = useState();
 
-  let [showModal, setShowModal] = useState(true);
+  let [showModal, setShowModal] = useState();
 
   let [screenAvailable, setScreenAvailable] = useState();
 
@@ -55,7 +55,7 @@ export default function VideoMeetComponent() {
 
   let [message, setMessage] = useState("");
 
-  let [newMessages, setNewMessages] = useState(3);
+  let [newMessages, setNewMessages] = useState(0);
 
   let [askForUsername, setAskForUsername] = useState(true);
 
@@ -480,22 +480,54 @@ export default function VideoMeetComponent() {
   };
   let routeTo=useNavigate();
 
-  let handleEndCall=()=>{
-    try{
-        let tracks=localVideoRef.current.srcObject.getTracks();
-        tracks.forEach(track=>track.stop());
-    }catch{}
+  let handleEndCall = () => {
+  try {
+    if (localVideoRef.current && localVideoRef.current.srcObject) {
+      localVideoRef.current.srcObject.getTracks().forEach((track) => {
+        track.stop();
+      });
+      localVideoRef.current.srcObject = null;
+    }
 
-    routeTo("/home");
+    if (window.localStream) {
+      window.localStream.getTracks().forEach((track) => {
+        track.stop();
+      });
+      window.localStream = null;
+    }
 
+    videoRef.current = [];
+
+    for (let id in connections) {
+      try {
+        connections[id].close();
+        delete connections[id];
+      } catch (e) {
+        console.log("Error closing peer connection:", e);
+      }
+    }
+
+    if (socketRef.current) {
+      socketRef.current.disconnect();
+      socketRef.current = null;
+    }
+
+  } catch (err) {
+    console.error("Error in handleEndCall:", err);
   }
+
+  routeTo("/home");
+};
+
 
   return (
     <div>
       {askForUsername === true ? (
-        <div>
-          <h2>Enter into Lobby</h2>
-          <TextField
+        <div className={styles.lobbyContainer}>
+          <div className={styles.leftPanel}>
+            <h2>Enter into Lobby</h2>
+            <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
+              <TextField
             id="outlined-basic"
             label="Username"
             variant="outlined"
@@ -508,8 +540,12 @@ export default function VideoMeetComponent() {
           <Button variant="contained" onClick={connect}>
             Connect
           </Button>
+            </div>
+          
+          </div>
+          
 
-          <div>
+          <div className={styles.rightPanel}>
             <video ref={localVideoRef} autoPlay muted></video>
           </div>
         </div>
@@ -524,9 +560,9 @@ export default function VideoMeetComponent() {
 
                         {messages.map((item,index)=>{
                             return (
-                                <div key={index}>
+                                <div key={index} className={styles.chatMsg}>
                                     <p style={{fontWeight:"bold"}}>{item.sender}</p>
-                                    <p>{item.data}</p>
+                                    <p style={{fontSize:"1.1rem"}}>{item.data}</p>
                                 </div>
                             )
                         })}

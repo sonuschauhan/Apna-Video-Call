@@ -25,12 +25,15 @@ function HomeComponent() {
           <h2>Apna Video Call</h2>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <IconButton onClick={()=>{navigate("/history")}}>
+        <div style={{ display: "flex", alignItems: "center",gap:"10px" }}>
+          <div className='historyBtn'>
+            <IconButton onClick={()=>{navigate("/history")}}>
             <Restore />
           </IconButton>
           <p>History</p>
-          <Button
+          </div>
+          
+          <Button variant='contained'
             onClick={() => {
               localStorage.removeItem("token");
               navigate("/auth");
@@ -42,7 +45,7 @@ function HomeComponent() {
       </div>
       <div className="meetContainer">
         <div className="leftPanel">
-          <h2>Providing Quality Video Call Just Like QUality Education</h2>
+          <h2>Providing Quality Video Call Just Like Quality Education</h2>
           <div style={{ display: "flex", gap: "10px" }}>
             <TextField
               onChange={(e) => setMeetingCode(e.target.value)}

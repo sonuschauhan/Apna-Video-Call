@@ -1,11 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
+import DuoIcon from '@mui/icons-material/Duo';
 import "../App.css";
 function LandingPage() {
     const router=useNavigate();
     return ( <div className="landingPageContainer">
         <nav>
             <div className="navHeader">
-                <h2>Apna Video Call</h2>
+                <h2> Zoom </h2>
             </div>
             <div className="navlist">
                 <p onClick={()=>{

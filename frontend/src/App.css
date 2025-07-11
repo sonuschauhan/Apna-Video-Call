@@ -66,6 +66,7 @@
   justify-content: space-between;
   padding-inline: 20px;
   text-align: center;
+  padding-top: 10px;
 }
 
 .meetContainer{
@@ -81,15 +82,48 @@
   height: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
+}
+.leftPanel h2{
+  text-align: center;
 }
 
 .rightPanel{
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .rightPanel > img{
   width: 30vw;
   height: auto;
   border-radius: 20px;
+}
+
+.historyBtn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+@media (max-width: 600px) {
+  .landingMainContainer{
+    flex-direction: column;
+    gap: 4rem;
+  }
+  .landingMainContainer > div:nth-child(2) img{
+    height: 40vh;
+  }
+
+  .meetContainer{
+    flex-direction: column;
+  }
+  .rightPanel > img{
+    width: 100vw;
+  }
+  .leftPanel{
+    flex-direction: column;
+    gap: 2rem;
+  }
 }
