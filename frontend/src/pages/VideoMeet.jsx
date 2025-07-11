@@ -13,7 +13,7 @@ import {
   VideocamOff,
 } from "@mui/icons-material";
 import {  useNavigate } from "react-router-dom";
-const server = "http://localhost:8000";
+import server from "../environment";
 const server_url = server;
 var connections = {};
 
